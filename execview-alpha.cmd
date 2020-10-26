@@ -1,0 +1,1 @@
+ssh -L 4002:127.0.0.1:4002 ubuntu@evn-alpha.evlem.net
