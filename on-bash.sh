@@ -18,6 +18,7 @@ source <(kubectl completion bash)
 alias ipconfig="echo \$(ifconfig eth0 | awk '{print \$2}' | grep -E -o \"([0-9]{1,3}[\.]){3}[0-9]{1,3}\")"
 alias k=kubectl
 alias kustomize-filter="/mnt/d/james/Execview/yaml-docs-filter/index.js"
+
 complete -F __start_kubectl k
 
 function highlight {
@@ -28,8 +29,9 @@ function highlight {
 
 alias helm=helm3
 
-alias execview-build='ssh ubuntu@evn-build.evlem.net'
 alias execview-alpha='ssh -L 4002:127.0.0.1:4002 ubuntu@evn-alpha.evlem.net'
+alias get-live-tls-secret="execview-alpha 'kubectl get secret tls-secret -n dev -o jsonpath={}'"
+alias update-tls="get-live-tls-secret | k apply -f -"
 
 declare -a blockDevicesAndLocations=("/k8storage/disks/diskimage loop0" "/k8storage/disks/diskimage2 loop1")
 for bdandl in "${blockDevicesAndLocations[@]}"

@@ -116,19 +116,27 @@ microk8s enable ingress
 #microk8s enable host-access
 
 #RESTART!
-kubectl create ns openebs
-helm repo add openebs https://openebs.github.io/charts
+kubectl create ns flux
+helm repo add fluxcd https://charts.fluxcd.io
 helm repo update
-helm install --namespace openebs openebs openebs/openebs
+helm upgrade -i helm-operator fluxcd/helm-operator \
+    --namespace flux \
+    --set helm.versions=v3
 
-kubectl create ns cert-manager
-helm repo add jetstack https://charts.jetstack.io
-helm repo update
-helm install \
-  cert-manager jetstack/cert-manager \
-  --namespace cert-manager \
-  --version v1.0.3 \
-  --set installCRDs=true
+# kubectl create ns openebs
+# helm repo add openebs https://openebs.github.io/charts
+# helm repo update
+# helm install --namespace openebs openebs openebs/openebs
+
+# kubectl create ns cert-manager
+# helm repo add jetstack https://charts.jetstack.io
+# helm repo update
+# helm install \
+#   cert-manager jetstack/cert-manager \
+#   --namespace cert-manager \
+#   --version v1.0.3 \
+#   --set installCRDs=true
+
 
 #how to make block devices!
 # blockdevicedisk='/k8storage/disks/diskimage'
