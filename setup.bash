@@ -9,15 +9,18 @@ echo "namyts ALL=(ALL) NOPASSWD:ALL" | sudo tee -a /etc/sudoers.d/namyts
 sudo apt-get update && sudo apt-get -y upgrade
 
 #enable systemd scripts for snaps etc...
-git clone https://github.com/DamionGans/ubuntu-wsl2-systemd-script.git
+cd /
+# git clone https://github.com/DamionGans/ubuntu-wsl2-systemd-script.git
+sudo git clone https://github.com/Namyts/ubuntu-wsl2-systemd-script.git
 cd ubuntu-wsl2-systemd-script/
-sudo bash ubuntu-wsl2-systemd-script.sh
+sudo bash ubuntu-wsl2-systemd-script.sh --force
 cd ~
+
 
 # on windows set this up https://stackoverflow.com/questions/42758985/windows-auto-start-pm2-and-node-apps
 # run it on ./wsl2aliases/index.js
 
-# RESTART!
+# HARD RESTART!
 # WAIT FOR SNAP TO BE READY!
 
 #setup ssh
@@ -61,6 +64,8 @@ sudo apt install -y --no-install-recommends ubuntu-desktop
 #install some apps
 code-insiders .
 
+
+#run "sudo apt purge snapd && sudo apt install snapd" if something weird breaks
 sudo snap install robo3t-snap
 
 sudo snap install epiphany
@@ -69,6 +74,7 @@ sudo snap install prospect-mail
 
 sudo snap install node --classic
 mkdir ~/.npm-global
+#SOFT RESTART
 npm config set prefix '~/.npm-global'
 
 sudo snap install docker
@@ -97,13 +103,14 @@ microk8s config > ~/.kube/config
   "$KREW" update
 )
 
-#RESTART!
+#SOFT RESTART!
 
 sudo snap install kubectl --classic
 sudo snap install kustomize
-sudo snap install helm --classic
+sudo snap install helm3
+#sudo snap install helm --classic
 
-#RESTART!
+#SOFT RESTART!
 
 kubectl krew install ctx
 kubectl krew install ns
@@ -115,28 +122,12 @@ microk8s enable dashboard
 microk8s enable ingress
 #microk8s enable host-access
 
-#RESTART!
 kubectl create ns flux
 helm repo add fluxcd https://charts.fluxcd.io
 helm repo update
 helm upgrade -i helm-operator fluxcd/helm-operator \
     --namespace flux \
     --set helm.versions=v3
-
-# kubectl create ns openebs
-# helm repo add openebs https://openebs.github.io/charts
-# helm repo update
-# helm install --namespace openebs openebs openebs/openebs
-
-# kubectl create ns cert-manager
-# helm repo add jetstack https://charts.jetstack.io
-# helm repo update
-# helm install \
-#   cert-manager jetstack/cert-manager \
-#   --namespace cert-manager \
-#   --version v1.0.3 \
-#   --set installCRDs=true
-
 
 #how to make block devices!
 # blockdevicedisk='/k8storage/disks/diskimage'
