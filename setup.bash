@@ -31,6 +31,7 @@ sudo apt-get install -y openssh-server
 #change ssh port
 sudo apt install -y net-tools
 echo "Port 2222" | sudo tee -a /etc/ssh/sshd_config
+echo "PasswordAuthentication no" | sudo tee -a /etc/ssh/sshd_config
 
 sudo ufw allow 2222/tcp
 sudo service ssh restart
@@ -39,7 +40,10 @@ sudo service ssh restart
 cd /mnt/c/Users/james/OneDrive/Documents/Projects/WSL/ssh
 cp -a . ~/.ssh
 cd ~
+touch ~/.ssh/authorized_keys
+cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
 chmod 600 ~/.ssh/id_rsa
+chmod 600 ~/.ssh/authorized_keys
 
 # remember to ssh at least once to
 # - windows -> wsl2
@@ -107,8 +111,8 @@ microk8s config > ~/.kube/config
 
 sudo snap install kubectl --classic
 sudo snap install kustomize
-sudo snap install helm3
-#sudo snap install helm --classic
+# sudo snap install helm3
+sudo snap install helm --classic
 
 #SOFT RESTART!
 
@@ -123,6 +127,7 @@ microk8s enable ingress
 #microk8s enable host-access
 
 kubectl create ns flux
+
 helm repo add fluxcd https://charts.fluxcd.io
 helm repo update
 helm upgrade -i helm-operator fluxcd/helm-operator \

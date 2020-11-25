@@ -1,1 +1,0 @@
-ssh ubuntu@evn-build.evlem.net
