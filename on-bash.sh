@@ -31,8 +31,6 @@ function highlight {
     grep --color -E "$pattern|$" "$@"
 }
 
-alias helm='helm3'
-
 alias execview-alpha='ssh -L 4002:127.0.0.1:4002 ubuntu@evn-alpha.evlem.net'
 alias get-live-tls-secret="execview-alpha 'kubectl get secret tls-secret -n dev -o jsonpath={}'"
 alias update-tls="get-live-tls-secret | k apply -f -"
