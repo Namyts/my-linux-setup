@@ -22,6 +22,7 @@ alias dns="cat /etc/resolv.conf | awk '/nameserver/{print \$2}'"
 alias ipconfig="echo \$(ifconfig eth0 | awk '{print \$2}' | grep -E -o \"([0-9]{1,3}[\.]){3}[0-9]{1,3}\")"
 alias k='kubectl'
 alias kustomize-filter="/mnt/d/james/Execview/yaml-docs-filter/index.js"
+alias delete-error-pods="k get pods -n dev | grep -v Running | grep -v ContainerCreating | awk '{print \$1}' | tail +2 | xargs kubectl delete pods -n dev"
 
 (command -v kubectl > /dev/null) && complete -F __start_kubectl k
 
