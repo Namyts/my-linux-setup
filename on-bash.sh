@@ -23,6 +23,7 @@ alias ipconfig="echo \$(ifconfig eth0 | awk '{print \$2}' | grep -E -o \"([0-9]{
 alias k='kubectl'
 alias kustomize-filter="/mnt/d/james/Execview/yaml-docs-filter/index.js"
 alias delete-error-pods="k get pods -n dev | grep -v Running | grep -v ContainerCreating | awk '{print \$1}' | tail +2 | xargs kubectl delete pods -n dev"
+alias delete-error-deployments="k get deployments -n dev | grep -v 1/1 | awk '{print \$1}' | tail +2 | xargs kubectl delete deployments -n dev"
 
 (command -v kubectl > /dev/null) && complete -F __start_kubectl k
 

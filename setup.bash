@@ -8,6 +8,44 @@ echo "namyts ALL=(ALL) NOPASSWD:ALL" | sudo tee -a /etc/sudoers.d/namyts
 #update things.
 sudo apt-get update && sudo apt-get -y upgrade
 
+sudo apt install -y net-tools
+
+#setup ssh
+mkdir -p ~/.ssh
+sudo apt-get remove -y --purge openssh-server
+sudo apt-get update && sudo apt-get -y upgrade
+sudo apt-get install -y openssh-server
+
+#change ssh port
+
+echo "Port 2222" | sudo tee -a /etc/ssh/sshd_config
+sudo ufw allow 2222/tcp
+sudo service ssh restart
+
+
+
+#add work keys into .ssh
+
+# on windows go to the folder and run
+# scp -P 2222 * namyts@192.168.0.69:/home/namyts/.ssh
+# scp -P 2222 id_rsa namyts@192.168.0.69:/home/namyts/
+## or on wsl
+## cd /mnt/c/Users/james/OneDrive/Documents/Projects/WSL/ssh
+## cp -a . ~/.ssh
+## cd ~
+
+touch ~/.ssh/authorized_keys
+cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
+chmod 600 ~/.ssh/id_rsa
+chmod 600 ~/.ssh/authorized_keys
+echo "PasswordAuthentication no" | sudo tee -a /etc/ssh/sshd_config
+sudo service ssh restart
+
+sudo apt-get install git 
+git config --global user.name namyts
+git config --global user.email 35004248+Namyts@users.noreply.github.com
+git clone https://github.com/Namyts/my-wsl-setup.git
+
 #enable systemd scripts for snaps etc...
 cd /
 # git clone https://github.com/DamionGans/ubuntu-wsl2-systemd-script.git
@@ -16,48 +54,29 @@ cd ubuntu-wsl2-systemd-script/
 sudo bash ubuntu-wsl2-systemd-script.sh --force
 cd ~
 
-
 # on windows set this up https://stackoverflow.com/questions/42758985/windows-auto-start-pm2-and-node-apps
 # run it on ./wsl2aliases/index.js
 
 # HARD RESTART!
 # WAIT FOR SNAP TO BE READY!
 
-#setup ssh
-sudo apt-get remove -y --purge openssh-server
-sudo apt-get update && sudo apt-get -y upgrade
-sudo apt-get install -y openssh-server
-
-#change ssh port
-sudo apt install -y net-tools
-echo "Port 2222" | sudo tee -a /etc/ssh/sshd_config
-echo "PasswordAuthentication no" | sudo tee -a /etc/ssh/sshd_config
-
-sudo ufw allow 2222/tcp
-sudo service ssh restart
-
-#add work keys into .ssh
-cd /mnt/c/Users/james/OneDrive/Documents/Projects/WSL/ssh
-cp -a . ~/.ssh
-cd ~
-touch ~/.ssh/authorized_keys
-cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
-chmod 600 ~/.ssh/id_rsa
-chmod 600 ~/.ssh/authorized_keys
-
 # remember to ssh at least once to
 # - windows -> wsl2
 
 
 #create on-bash.sh
+# echo "source ~/my-wsl-setup/on-bash.sh" | sudo tee -a .bashrc
+# sudo chmod +x ~/my-wsl-setup/on-bash.sh
+# sudo apt install -y neofetch
+
 echo "source /mnt/c/Users/james/OneDrive/Documents/Projects/WSL/on-bash.sh" | sudo tee -a .bashrc
 sudo chmod +x /mnt/c/Users/james/OneDrive/Documents/Projects/WSL/on-bash.sh
 
 
 #install opengl support for some gui apps
-sudo apt install -y mesa-utils
-sudo apt-get install -y x11-apps
-sudo apt install -y --no-install-recommends ubuntu-desktop 
+# sudo apt install -y mesa-utils
+# sudo apt-get install -y x11-apps
+# sudo apt install -y --no-install-recommends ubuntu-desktop 
 
 #start desktop (ensure vcxsrv doesnt have native openGl enabled...)
 # sudo service dbus start
@@ -96,7 +115,12 @@ sudo usermod -aG docker $USER
 sudo snap install microk8s --classic
 sudo usermod -aG microk8s $USER
 mkdir ~/.kube
+
+#RESTART
 microk8s config > ~/.kube/config
+
+sudo apt install curl
+#sudo apt install --reinstall ca-certificates #if something goes wrong with the next command
 
 ( #install kubctl krew
   set -x; cd "$(mktemp -d)" &&
