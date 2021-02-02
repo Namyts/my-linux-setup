@@ -1,30 +1,31 @@
 const fs = require('fs')
-const exec = require('child_process').exec
 const chokidar = require('chokidar')
 
 const hostsFilePath = 'C:/Windows/System32/drivers/etc/hosts'
-const aliasesListFilePath = './aliases'
-const WSL2IPFilePath = './ip'
+
+const configPath = './config/'
+const aliasesListFilePath = `${configPath}/aliases`
+const VM_IP_PATH = `${configPath}/ip`
 
 const updateHostsFile = () => {
 	const hostsFile = fs.readFileSync(hostsFilePath).toString()
 	const aliasesFile = fs.readFileSync(aliasesListFilePath).toString()
-	const WSL2IPFile = fs.readFileSync(WSL2IPFilePath).toString()
+	const VM_IP_FILE = fs.readFileSync(VM_IP_PATH).toString()
 
 	const hostsFileLines = hostsFile.split('\n')
 	const aliases = aliasesFile.split(' ')
-	const WSL2IP = WSL2IPFile.trim()
+	const VM_IP = VM_IP_FILE.trim()
 
 	//remove old aliases
 	let newHostsFileLines = hostsFileLines.filter(l=>{
-		const wsl2Alias = /.* #WSL2Alias/gi
-		return !l.match(wsl2Alias)
+		const vmalias = /.* #VM-Alias/gi
+		return !l.match(vmalias)
 	})
 
 	//add new aliases
 	aliases.forEach(a=>{
-		let newLine = `${WSL2IP}	${a}`
-		newLine += ' #WSL2Alias'
+		let newLine = `${VM_IP}	${a}`
+		newLine += ' #VM-Alias'
 		newHostsFileLines.push(newLine)
 	})
 
@@ -33,12 +34,12 @@ const updateHostsFile = () => {
 
 	fs.writeFileSync(hostsFilePath,newHostsFile)
 	console.log('hosts file has been updated!')
-	console.log(`new ip ${WSL2IP}`)
+	console.log(`new ip ${VM_IP}`)
 	console.log('\n')
 }
 
 
-chokidar.watch(WSL2IPFilePath,{persistent:true}).on('all',(e) => {
+chokidar.watch(configPath,{persistent:true}).on('all',(e) => {
 	switch(e){
 		case 'change': {
 			console.log('ip has been changed?')

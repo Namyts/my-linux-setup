@@ -7,7 +7,9 @@ IF [%~1]==[] GOTO START
 :START
 VBoxManage startvm "Ubuntu-VB" --type headless
 cls
-ssh -L 5000:127.0.0.1:5000 namyts@ubuntu.wsl -p 2222
+@echo off
+ssh-pf namyts@ubuntu.wsl -p 2222
+@echo on
 GOTO DONE
 
 
