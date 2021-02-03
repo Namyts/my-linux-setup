@@ -1,3 +1,5 @@
+#!/bin/bash
+
 hostsFile=/etc/hosts
 cat $hostsFile | grep -v \#VM-Alias | sudo tee $hostsFile &> /dev/null
 

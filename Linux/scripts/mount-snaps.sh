@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # TAKEN FROM https://askubuntu.com/questions/1029562/move-snap-packages-to-another-location-directory
 
 # I RECCOMMEND ONLY MOVING SNAP DATA. ONLY MOVE SNAPS IF YOU REALLY HAVE TO
