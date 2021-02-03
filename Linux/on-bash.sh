@@ -36,6 +36,7 @@ alias robomongo=robo3t-snap
 alias web=epiphany
 alias dns="cat /etc/resolv.conf | awk '/nameserver/{print \$2}'"
 
+alias k='kubectl'
 alias kubens="kubectl ns"
 alias update-hosts="bash $ON_BASH_LOCATION/Linux/scripts/add-aliases-to-hosts.sh"
 alias dashboard="bash $ON_BASH_LOCATION/Linux/scripts/get-token.sh"
