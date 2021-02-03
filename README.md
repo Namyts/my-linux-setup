@@ -1,10 +1,8 @@
-# MY WSL SETUP!
+# MY LINUX SETUP!
 
-The setup script will setup my WSL. Paste it line-by-line for now. Change appropriate paths manually.
+The run-setup script will setup linux how I like it. Paste it line-by-line for now. Change appropriate paths manually.
 
-Add id_rsa and id_rsa.pub to ./ssh
-
-I am also using this folder to create commands for windows
+I am also using this folder to create commands for windows (i.e create my windows <--> Linux dev environment)
 
 Personal project. Im just using Github to back it up.
 
