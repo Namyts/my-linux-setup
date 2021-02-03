@@ -50,9 +50,6 @@ sudo service ssh restart
 #sudo bash ubuntu-wsl2-systemd-script.sh --force
 #cd ~
 
-# on windows set this up https://stackoverflow.com/questions/42758985/windows-auto-start-pm2-and-node-apps
-# run it on ./wsl2aliases/index.js
-
 # HARD RESTART!
 # WAIT FOR SNAP TO BE READY!
 
