@@ -6,7 +6,7 @@ cd ~
 #IS_WSL
 
 #remove sudo password requirement
-echo "namyts ALL=(ALL) NOPASSWD:ALL" | sudo tee -a /etc/sudoers.d/namyts
+echo "$USER ALL=(ALL) NOPASSWD:ALL" | sudo tee -a /etc/sudoers.d/$USER
 
 #update things.
 sudo apt-get update && sudo apt-get -y upgrade
@@ -26,12 +26,13 @@ sudo service ssh restart
 
 #add work keys into .ssh
 
-# on windows go to the folder and run
-# scp -P 2222 * namyts@192.168.0.69:/home/namyts/.ssh
-## or on wsl
-## cd /mnt/c/Users/james/OneDrive/Documents/Projects/WSL/ssh
-## cp -a . ~/.ssh
-## cd ~
+echo "Add your ssh keys to the ssh folder"
+echo "On windows run:"
+echo "scp -P 2222 * $USER@192.168.0.69:/home/$USER/.ssh"
+echo "or on WSL"
+echo "cd /mnt/c/Users/james/OneDrive/Documents/Projects/WSL/ssh && cp -a . ~/.ssh && cd ~"
+read -n 1 -s -r -p "Press any key to continue"
+echo ""
 
 touch ~/.ssh/authorized_keys
 cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
