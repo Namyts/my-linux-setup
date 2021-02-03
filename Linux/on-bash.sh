@@ -1,24 +1,24 @@
 #!/bin/bash
 
-(command -v noefetch > /dev/null) && neofetch
+(command -v neofetch > /dev/null) && neofetch
 
 WINDOWS_IP=192.168.0.18
-CURRENT_LOCATION=~/my-wsl-setup/
-WORK_K8_LOCATION=
-MY_K8_LOCATION=
-YAML_DOCS_FILTER_LOCATION=
-WIFI_ADAPTER=eth0
+ON_BASH_LOCATION=~/my-wsl-setup
+WORK_K8_LOCATION=~/evn-kubernetes-config
+MY_K8S_LOCATION=~/my-k8s
+YAML_DOCS_FILTER_LOCATION=~/yaml-docs-filter
+WIFI_ADAPTER=enp0s3
 
 
 if [[ -n "$IS_WSL" || -n "$WSL_DISTRO_NAME" ]]; then
     echo "This is WSL"
 	WINDOWS_IP=$(cat /etc/resolv.conf | grep nameserver | awk '{print $2}')
-	CURRENT_LOCATION=/mnt/c/Users/james/OneDrive/Documents/Projects/WSL/
+	ON_BASH_LOCATION=/mnt/c/Users/james/OneDrive/Documents/Projects/WSL/
 	WORK_K8_LOCATION=/mnt/d/james/Execview/Kubernetes
-	MY_K8_LOCATION=""
-	YAML_DOCS_FILTER_LOCATION="/mnt/d/james/Execview/yaml-docs-filter"
-	WIFI_ADAPTER=""
-else
+	MY_K8S_LOCATION=/mnt/d/james/code/my-k8s
+	YAML_DOCS_FILTER_LOCATION=/mnt/d/james/Execview/yaml-docs-filter
+	WIFI_ADAPTER=eth0
+fi
 
 (command -v docker > /dev/null) && (snap services docker > /dev/null || sudo snap start docker)
 (service ssh status > /dev/null || sudo service ssh start)
@@ -37,10 +37,10 @@ alias web=epiphany
 alias dns="cat /etc/resolv.conf | awk '/nameserver/{print \$2}'"
 
 alias kubens="kubectl ns"
-alias update-hosts="bash $CURRENT_LOCATION/Linux/scripts/add-aliases-to-hosts.sh"
-alias dashboard="bash $CURRENT_LOCATION/Linux/scripts/get-token.sh"
+alias update-hosts="bash $ON_BASH_LOCATION/Linux/scripts/add-aliases-to-hosts.sh"
+alias dashboard="bash $ON_BASH_LOCATION/Linux/scripts/get-token.sh"
 alias ev-deploy="bash $WORK_K8_LOCATION/deploy.sh local"
-alias my-deploy="bash $MY_K8_LOCATION/deploy.sh"
+alias my-deploy="bash $MY_K8S_LOCATION/deploy.sh"
 
 (command -v kubectl > /dev/null) && source <(kubectl completion bash)
 alias ipconfig="echo \$(ifconfig $WIFI_ADAPTER | awk '{print \$2}' | grep -E -o \"([0-9]{1,3}[\.]){3}[0-9]{1,3}\")"
@@ -91,7 +91,7 @@ do
 done
 
 if [[ -n "$IS_WSL" || -n "$WSL_DISTRO_NAME" ]]; then
-	ipfile=$CURRENT_LOCATION/Windows/vw-aliases/config/ip
+	ipfile=$ON_BASH_LOCATION/Windows/vw-aliases/config/ip
 	oldip=$(cat $ipfile)
 	newip=$(echo -n $(ipconfig))
 	if [ "$oldip" != "$newip" ]; then
@@ -100,9 +100,9 @@ if [[ -n "$IS_WSL" || -n "$WSL_DISTRO_NAME" ]]; then
 		
 		cat /mnt/c/Windows/System32/drivers/etc/hosts | grep \#WSL2Alias | sudo tee -a /etc/hosts > /dev/null #reload
 	fi
-else
+fi
 
-alias update-coredns="source $CURRENT_LOCATION/Linux/scripts/replace-coredns-nameserver.sh"
+alias update-coredns="source $ON_BASH_LOCATION/Linux/scripts/replace-coredns-nameserver.sh"
 
 export LIBGL_ALWAYS_INDIRECT=1
 export PATH=$newPath
@@ -110,3 +110,11 @@ export KUBECONFIG=~/.kube/config
 
 newip=$(echo -n $(ipconfig))
 echo "IP: $newip"
+
+export WINDOWS_IP
+export IP=$newip
+export ON_BASH_LOCATION
+export WORK_K8_LOCATION
+export MY_K8S_LOCATION
+export YAML_DOCS_FILTER_LOCATION
+export WIFI_ADAPTER
