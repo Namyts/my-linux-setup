@@ -1,0 +1,1 @@
+scp -P 2222 namyts@ubuntu.wsl:/home/namyts/.kube/config C:/Users/james/.kube/config
