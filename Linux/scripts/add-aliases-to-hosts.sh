@@ -21,5 +21,5 @@ for a in "${arr[@]}"; do
 	sed -i "${CoreDNSLineNumber}i\\${tabbyText}" $corednsConfigMapFile #&> /dev/null
 done
 
-pod=$(kubectl get pods -n kube-system | awk '{print $1}' | grep coredns)
-kubectl delete pod -n kube-system $pod
+pod=$(k get pods -n kube-system | awk '{print $1}' | grep coredns)
+k delete pod -n kube-system $pod

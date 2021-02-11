@@ -36,20 +36,23 @@ alias robomongo=robo3t-snap
 alias web=epiphany
 alias dns="cat /etc/resolv.conf | awk '/nameserver/{print \$2}'"
 
-alias kubens="kubectl ns"
+alias k='kubectl'
+alias kubens="k ns"
 alias update-hosts="bash $ON_BASH_LOCATION/Linux/scripts/add-aliases-to-hosts.sh"
 alias dashboard="bash $ON_BASH_LOCATION/Linux/scripts/get-token.sh"
 alias ev-deploy="bash $WORK_K8_LOCATION/deploy.sh local"
 alias my-deploy="bash $MY_K8S_LOCATION/deploy.sh"
 
 (command -v kubectl > /dev/null) && source <(kubectl completion bash)
+(command -v kubectl > /dev/null) && source <(k completion bash)
+(command -v kubectl > /dev/null) && complete -F __start_kubectl k
+
 alias ipconfig="echo \$(ifconfig $WIFI_ADAPTER | awk '{print \$2}' | grep -E -o \"([0-9]{1,3}[\.]){3}[0-9]{1,3}\")"
 
 alias kustomize-filter="$YAML_DOCS_FILTER_LOCATION/index.js"
-alias delete-error-pods="k get pods -n dev | grep -v Running | grep -v ContainerCreating | awk '{print \$1}' | tail +2 | xargs kubectl delete pods -n dev"
-alias delete-error-deployments="k get deployments -n dev | grep -vP '(\d+)\/\1' | awk '{print \$1}' | tail +2 | xargs kubectl delete deployments -n dev"
+alias delete-error-pods="k get pods -n dev | grep -v Running | grep -v ContainerCreating | awk '{print \$1}' | tail +2 | xargs k delete pods -n dev"
+alias delete-error-deployments="k get deployments -n dev | grep -vP '(\d+)\/\1' | awk '{print \$1}' | tail +2 | xargs k delete deployments -n dev"
 
-(command -v kubectl > /dev/null) && complete -F __start_kubectl k
 
 function highlight {
 	local pattern="$1"
@@ -58,7 +61,7 @@ function highlight {
 }
 
 alias execview-alpha='ssh ubuntu@evn-alpha.evlem.net'
-alias get-live-tls-secret="execview-alpha 'kubectl get secret tls-secret -n dev -o jsonpath={}'"
+alias get-live-tls-secret="execview-alpha 'k get secret tls-secret -n dev -o jsonpath={}'"
 alias update-tls="get-live-tls-secret | k apply -f -"
 
 declare -a blockDevicesAndLocations=("/k8storage/disks/diskimage loop0" "/k8storage/disks/diskimage2 loop1")
