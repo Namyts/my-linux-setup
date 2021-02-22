@@ -50,8 +50,8 @@ alias my-deploy="bash $MY_K8S_LOCATION/deploy.sh"
 alias ipconfig="echo \$(ifconfig $WIFI_ADAPTER | awk '{print \$2}' | grep -E -o \"([0-9]{1,3}[\.]){3}[0-9]{1,3}\")"
 
 alias kustomize-filter="$YAML_DOCS_FILTER_LOCATION/index.js"
-alias delete-error-pods="k get pods -n dev | grep -v Running | grep -v ContainerCreating | awk '{print \$1}' | tail +2 | xargs k delete pods -n dev"
-alias delete-error-deployments="k get deployments -n dev | grep -vP '(\d+)\/\1' | awk '{print \$1}' | tail +2 | xargs k delete deployments -n dev"
+alias delete-error-pods="k get pods -n dev | grep -v Running | grep -v ContainerCreating | awk '{print \$1}' | tail +2 | xargs kubectl delete pods -n dev"
+alias delete-error-deployments="k get deployments -n dev | grep -vP '(\d+)\/\1' | awk '{print \$1}' | tail +2 | xargs kubectl delete deployments -n dev"
 
 
 function highlight {
