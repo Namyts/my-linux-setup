@@ -60,7 +60,7 @@ sudo service ssh restart
 #create on-bash.sh
 
 # ON_BASH_LOCATION=/mnt/c/Users/james/OneDrive/Documents/Projects/WSL/on-bash.sh
-ON_BASH_LOCATION=~/my-wsl-setup/on-bash.sh
+ON_BASH_LOCATION=~/my-wsl-setup/Linux/on-bash.sh
 
 echo "source $ON_BASH_LOCATION" | sudo tee -a .bashrc
 sudo chmod +x $ON_BASH_LOCATION
@@ -85,23 +85,25 @@ sudo snap install epiphany
 sudo snap install prospect-mail
 
 sudo snap install node --classic
-mkdir ~/.npm-global
+mkdir -p ~/.npm-global
 
-#### SOFT RESTART ####
-exec su -l $USER
+#### SOFT RESTART #### PATH
+source ~/.bashrc
 
 npm config set prefix '~/.npm-global'
 
 sudo snap install docker
 sudo groupadd docker
-sudo usermod -aG docker $USER
+gpasswd -a docker $USER
+#sudo usermod -aG docker $USER
 
 sudo snap install microk8s --classic
-sudo usermod -aG microk8s $USER
-mkdir ~/.kube
+gpasswd -a microk8s $USER
+#sudo usermod -aG microk8s $USER
+mkdir -p ~/.kube
 
-#### SOFT RESTART ####
-exec su -l $USER
+#### SOFT RESTART #### PATH | PERMISSIONS
+source ~/.bashrc
 
 microk8s config > ~/.kube/config
 
@@ -117,16 +119,16 @@ sudo apt install curl
   "$KREW" update
 )
 
-#### SOFT RESTART ####
-exec su -l $USER
+#### SOFT RESTART #### PATH
+source ~/.bashrc
 
 sudo snap install kubectl --classic
 sudo snap install kustomize
 # sudo snap install helm3
 sudo snap install helm --classic
 
-#### SOFT RESTART ####
-exec su -l $USER
+#### SOFT RESTART #### PATH
+source ~/.bashrc
 
 kubectl krew install ctx
 kubectl krew install ns
