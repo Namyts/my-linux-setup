@@ -12,12 +12,12 @@ sudo apt install -y net-tools
 sudo apt install -y neofetch
 
 #create on-bash.sh
-# ON_BASH_LOCATION=/mnt/c/Users/james/OneDrive/Documents/Projects/WSL/on-bash.sh
-ON_BASH_LOCATION=~/my-wsl-setup/Linux/on-bash.sh
+# ON_BASH_SCRIPT=/mnt/c/Users/james/OneDrive/Documents/Projects/WSL/on-bash.sh
+ON_BASH_SCRIPT=~/my-wsl-setup/Linux/on-bash.sh
 
-source $ON_BASH_LOCATION #so i can use the functions/variables
-writeOnce .bashrc "source $ON_BASH_LOCATION"
-sudo chmod +x $ON_BASH_LOCATION
+source $ON_BASH_SCRIPT #so i can use the functions/variables
+writeOnce .bashrc source "$ON_BASH_SCRIPT"
+sudo chmod +x $ON_BASH_SCRIPT
 
 #remove sudo password requirement
 writeOnce /etc/sudoers.d/$USER "$USER ALL=(ALL) NOPASSWD:ALL"
