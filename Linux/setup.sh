@@ -5,13 +5,22 @@ cd ~
 #exec su -l $USER #REDO GROUPS
 #IS_WSL
 
-#remove sudo password requirement
-echo "$USER ALL=(ALL) NOPASSWD:ALL" | sudo tee -a /etc/sudoers.d/$USER
-
 #update things.
 sudo apt-get update && sudo apt-get -y upgrade
 
 sudo apt install -y net-tools
+sudo apt install -y neofetch
+
+#create on-bash.sh
+# ON_BASH_LOCATION=/mnt/c/Users/james/OneDrive/Documents/Projects/WSL/on-bash.sh
+ON_BASH_LOCATION=~/my-wsl-setup/Linux/on-bash.sh
+
+source $ON_BASH_LOCATION #so i can use the functions/variables
+writeOnce .bashrc "source $ON_BASH_LOCATION"
+sudo chmod +x $ON_BASH_LOCATION
+
+#remove sudo password requirement
+writeOnce /etc/sudoers.d/$USER "$USER ALL=(ALL) NOPASSWD:ALL"
 
 #setup ssh
 mkdir -p ~/.ssh
@@ -20,26 +29,26 @@ sudo apt-get update && sudo apt-get -y upgrade
 sudo apt-get install -y openssh-server
 
 #change ssh port
-echo "Port 2222" | sudo tee -a /etc/ssh/sshd_config
+writeOnce /etc/ssh/sshd_config "Port 2222"
 sudo ufw allow 2222/tcp
 sudo service ssh restart
 
+IP=$(echo -n $(ipconfig))
 #add work keys into .ssh
-
 echo "Add your ssh keys to the ssh folder"
 echo "On windows run:"
-echo "scp -P 2222 * $USER@192.168.0.69:/home/$USER/.ssh"
+echo "scp -P 2222 * $USER@$IP:/home/$USER/.ssh"
 echo "or on WSL"
 echo "cd /mnt/c/Users/james/OneDrive/Documents/Projects/WSL/ssh && cp -a . ~/.ssh && cd ~"
 read -n 1 -s -r -p "Press any key to continue"
 echo ""
 
 touch ~/.ssh/authorized_keys
-cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
+cat ~/.ssh/id_rsa.pub > ~/.ssh/authorized_keys
 chmod 600 ~/.ssh/id_rsa
 chmod 600 ~/.ssh/id_rsa.pub
 chmod 600 ~/.ssh/authorized_keys
-echo "PasswordAuthentication no" | sudo tee -a /etc/ssh/sshd_config
+writeOnce /etc/ssh/sshd_config "PasswordAuthentication no"
 sudo service ssh restart
 
 ##enable systemd scripts for snaps etc...
@@ -52,30 +61,6 @@ sudo service ssh restart
 
 # HARD RESTART!
 # WAIT FOR SNAP TO BE READY!
-
-# remember to ssh at least once to
-# - windows -> wsl2
-
-
-#create on-bash.sh
-
-# ON_BASH_LOCATION=/mnt/c/Users/james/OneDrive/Documents/Projects/WSL/on-bash.sh
-ON_BASH_LOCATION=~/my-wsl-setup/Linux/on-bash.sh
-
-echo "source $ON_BASH_LOCATION" | sudo tee -a .bashrc
-sudo chmod +x $ON_BASH_LOCATION
-
-sudo apt install -y neofetch
-
-#install opengl support for some gui apps
-# sudo apt install -y mesa-utils
-# sudo apt-get install -y x11-apps
-# sudo apt install -y --no-install-recommends ubuntu-desktop 
-
-#start desktop (ensure vcxsrv doesnt have native openGl enabled...)
-# sudo service dbus start
-# sudo service x11-common start
-# gnome-shell --x11 -r #run this to test
 
 #run "sudo apt purge snapd && sudo apt install snapd" if something weird breaks
 sudo snap install robo3t-snap
@@ -94,18 +79,18 @@ npm config set prefix '~/.npm-global'
 
 sudo snap install docker
 sudo groupadd docker
-gpasswd -a docker $USER
+sudo gpasswd -a $USER docker 
 #sudo usermod -aG docker $USER
 
 sudo snap install microk8s --classic
-gpasswd -a microk8s $USER
+sudo gpasswd -a $USER microk8s 
 #sudo usermod -aG microk8s $USER
 mkdir -p ~/.kube
 
 #### SOFT RESTART #### PATH | PERMISSIONS
 source ~/.bashrc
 
-microk8s config > ~/.kube/config
+sudo microk8s config > ~/.kube/config #sudo bc the permissions dont update
 
 sudo apt install curl
 #sudo apt install --reinstall ca-certificates #if something goes wrong with the next command
@@ -135,10 +120,10 @@ kubectl krew install ns
 
 
 #setup microk8s
-microk8s enable dns
-microk8s enable dashboard
-microk8s enable ingress
-#microk8s enable host-access
+sudo microk8s enable dns #sudo bc the permissions dont update
+sudo microk8s enable dashboard #sudo bc the permissions dont update
+sudo microk8s enable ingress #sudo bc the permissions dont update
+#microk8s enable host-access #sudo bc the permissions dont update
 
 kubectl create ns flux
 
@@ -147,4 +132,3 @@ helm repo update
 helm upgrade -i helm-operator fluxcd/helm-operator \
     --namespace flux \
     --set helm.versions=v3
-

@@ -60,6 +60,13 @@ function highlight {
     grep --color -E "$pattern|$" "$@"
 }
 
+function writeOnce {
+	local write_file="$1"
+	shift
+    local string_to_write="$@"
+	grep -q "$string_to_write" $write_file || (echo $string_to_write | sudo tee -a $write_file)
+}
+
 alias execview-alpha='ssh ubuntu@evn-alpha.evlem.net'
 alias get-live-tls-secret="execview-alpha 'k get secret tls-secret -n dev -o jsonpath={}'"
 alias update-tls="get-live-tls-secret | k apply -f -"
