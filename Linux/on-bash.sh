@@ -38,10 +38,10 @@ alias dns="cat /etc/resolv.conf | awk '/nameserver/{print \$2}'"
 
 alias k='kubectl'
 alias kubens="k ns"
-alias update-hosts="bash $ON_BASH_LOCATION/Linux/scripts/add-aliases-to-hosts.sh"
-alias dashboard="bash $ON_BASH_LOCATION/Linux/scripts/get-token.sh"
-alias ev-deploy="bash $WORK_K8_LOCATION/deploy.sh local"
-alias my-deploy="bash $MY_K8S_LOCATION/deploy.sh"
+alias update-hosts="source $ON_BASH_LOCATION/Linux/scripts/add-aliases-to-hosts.sh"
+alias dashboard="source $ON_BASH_LOCATION/Linux/scripts/get-token.sh"
+alias ev-deploy="source $WORK_K8_LOCATION/deploy.sh local"
+alias my-deploy="source $MY_K8S_LOCATION/deploy.sh"
 
 (command -v kubectl > /dev/null) && source <(kubectl completion bash)
 (command -v kubectl > /dev/null) && source <(k completion bash)
@@ -68,7 +68,7 @@ function writeOnce {
 }
 
 alias execview-alpha='ssh ubuntu@evn-alpha.evlem.net'
-alias get-live-tls-secret="execview-alpha 'k get secret tls-secret -n dev -o jsonpath={}'"
+alias get-live-tls-secret="execview-alpha 'kubectl get secret tls-secret -n dev -o jsonpath={}'"
 alias update-tls="get-live-tls-secret | k apply -f -"
 
 declare -a blockDevicesAndLocations=("/k8storage/disks/diskimage loop0" "/k8storage/disks/diskimage2 loop1")
@@ -108,7 +108,7 @@ if [[ -n "$IS_WSL" || -n "$WSL_DISTRO_NAME" ]]; then
 		echo -n $(ipconfig) > $ipfile #put wsl2 ip in file
 		sleep 1
 		
-		cat /mnt/c/Windows/System32/drivers/etc/hosts | grep \#WSL2Alias | sudo tee -a /etc/hosts > /dev/null #reload
+		cat /mnt/c/Windows/System32/drivers/etc/hosts | grep \#VM-Alias | sudo tee -a /etc/hosts > /dev/null #reload
 	fi
 fi
 
