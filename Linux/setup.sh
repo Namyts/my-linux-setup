@@ -51,6 +51,9 @@ chmod 600 ~/.ssh/authorized_keys
 writeOnce /etc/ssh/sshd_config "PasswordAuthentication no"
 sudo service ssh restart
 
+git config --global user.name namyts
+git config --global user.email 35004248+Namyts@users.noreply.github.com
+
 ##enable systemd scripts for snaps etc...
 #cd /
 #git clone https://github.com/DamionGans/ubuntu-wsl2-systemd-script.git
