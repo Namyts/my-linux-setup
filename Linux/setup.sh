@@ -13,7 +13,7 @@ sudo apt install -y neofetch
 
 #create on-bash.sh
 # ON_BASH_SCRIPT=/mnt/c/Users/james/OneDrive/Documents/Projects/WSL/on-bash.sh
-ON_BASH_SCRIPT=~/my-wsl-setup/Linux/on-bash.sh
+ON_BASH_SCRIPT=~/my-linux-setup/Linux/on-bash.sh
 
 source $ON_BASH_SCRIPT #so i can use the functions/variables
 writeOnce .bashrc source "$ON_BASH_SCRIPT"

@@ -3,7 +3,7 @@
 (command -v neofetch > /dev/null) && neofetch
 
 WINDOWS_IP=192.168.0.18
-ON_BASH_LOCATION=~/my-wsl-setup
+ON_BASH_LOCATION=~/my-linux-setup
 WORK_K8_LOCATION=~/evn-kubernetes-config
 MY_K8S_LOCATION=~/my-k8s
 YAML_DOCS_FILTER_LOCATION=~/yaml-docs-filter
