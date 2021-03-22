@@ -40,7 +40,7 @@ alias k='kubectl'
 alias kubens="k ns"
 alias update-hosts="source $ON_BASH_LOCATION/Linux/scripts/add-aliases-to-hosts.sh"
 alias dashboard="source $ON_BASH_LOCATION/Linux/scripts/get-token.sh"
-alias ev-deploy="bash $WORK_K8_LOCATION/deploy.sh local"
+alias ev-deploy="bash $WORK_K8_LOCATION/scripts/deploy.sh local"
 alias my-deploy="bash $MY_K8S_LOCATION/deploy.sh"
 
 (command -v kubectl > /dev/null) && source <(kubectl completion bash)
