@@ -50,8 +50,8 @@ alias my-deploy="bash $MY_K8S_LOCATION/deploy.sh"
 alias ipconfig="echo \$(ifconfig $WIFI_ADAPTER | awk '{print \$2}' | grep -E -o \"([0-9]{1,3}[\.]){3}[0-9]{1,3}\")"
 
 alias kustomize-filter="$YAML_DOCS_FILTER_LOCATION/index.js"
-alias delete-error-pods="k get pods -n dev | grep -v Running | grep -v ContainerCreating | awk '{print \$1}' | tail +2 | xargs kubectl delete pods -n dev"
-alias delete-error-deployments="k get deployments -n dev | grep -vP '(\d+)\/\1' | awk '{print \$1}' | tail +2 | xargs kubectl delete deployments -n dev"
+alias delete-error-pods="k get pods -n local | grep -v Running | grep -v ContainerCreating | awk '{print \$1}' | tail +2 | xargs kubectl delete pods -n local"
+alias delete-error-deployments="k get deployments -n local | grep -vP '(\d+)\/\1' | awk '{print \$1}' | tail +2 | xargs kubectl delete deployments -n local"
 
 
 function highlight {
@@ -68,8 +68,8 @@ function writeOnce {
 }
 
 alias execview-alpha='ssh ubuntu@evn-alpha.evlem.net'
-alias get-live-tls-secret="execview-alpha 'kubectl get secret tls-secret -n dev -o jsonpath={}'"
-alias update-tls="get-live-tls-secret | k apply -f -"
+alias get-live-tls-secret="execview-alpha 'kubectl get secret tls-secret -n dev -oyaml'"
+alias update-tls="get-live-tls-secret | yq e '.metadata.namespace = \"local\"' - | k apply -f -"
 
 declare -a blockDevicesAndLocations=("/k8storage/disks/diskimage loop0" "/k8storage/disks/diskimage2 loop1")
 for bdandl in "${blockDevicesAndLocations[@]}"
