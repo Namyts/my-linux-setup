@@ -28,7 +28,7 @@ export NO_AT_BRIDGE=1
 unset XDG_RUNTIME_DIR
 unset DBUS_SESSION_BUS_ADDRESS
 
-(command -v microk8s > /dev/null) && microk8s config > ~/.kube/config
+# (command -v microk8s > /dev/null) && microk8s config > ~/.kube/config
 
 alias ducks="sudo du -h --max-depth=1"
 alias mail=prospect-mail
@@ -38,9 +38,10 @@ alias dns="cat /etc/resolv.conf | awk '/nameserver/{print \$2}'"
 
 alias k='kubectl'
 alias kubens="k ns"
+alias kubectx="k ctx"
 alias update-hosts="source $ON_BASH_LOCATION/Linux/scripts/add-aliases-to-hosts.sh"
 alias dashboard="source $ON_BASH_LOCATION/Linux/scripts/get-token.sh"
-alias ev-deploy="bash $WORK_K8_LOCATION/scripts/deploy.sh local"
+alias ev-deploy="source $ON_BASH_LOCATION/Linux/scripts/deploy-k8s.sh"
 alias my-deploy="bash $MY_K8S_LOCATION/deploy.sh"
 
 (command -v kubectl > /dev/null) && source <(kubectl completion bash)

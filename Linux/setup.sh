@@ -139,3 +139,6 @@ helm upgrade -i helm-operator fluxcd/helm-operator \
 #for openebs to work
 sudo apt-get install -y open-iscsi
 sudo systemctl enable --now iscsid
+
+#azure cli
+curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
