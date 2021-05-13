@@ -40,7 +40,7 @@ alias k='kubectl'
 alias kubens="k ns"
 alias kubectx="k ctx"
 alias update-hosts="source $ON_BASH_LOCATION/Linux/scripts/add-aliases-to-hosts.sh"
-alias dashboard="source $ON_BASH_LOCATION/Linux/scripts/get-token.sh"
+alias dashboard="source $WORK_K8_LOCATION/scripts/dashboard.sh"
 alias ev-deploy="source $ON_BASH_LOCATION/Linux/scripts/deploy-k8s.sh"
 alias my-deploy="bash $MY_K8S_LOCATION/deploy.sh"
 
@@ -49,10 +49,23 @@ alias my-deploy="bash $MY_K8S_LOCATION/deploy.sh"
 (command -v kubectl > /dev/null) && complete -F __start_kubectl k
 
 alias ipconfig="echo \$(ifconfig $WIFI_ADAPTER | awk '{print \$2}' | grep -E -o \"([0-9]{1,3}[\.]){3}[0-9]{1,3}\")"
-
 alias kustomize-filter="$YAML_DOCS_FILTER_LOCATION/index.js"
-alias delete-error-pods="k get pods -n local | grep -v Running | grep -v ContainerCreating | awk '{print \$1}' | tail +2 | xargs kubectl delete pods -n local"
-alias delete-error-deployments="k get deployments -n local | grep -vP '(\d+)\/\1' | awk '{print \$1}' | tail +2 | xargs kubectl delete deployments -n local"
+
+function delete-error-pods {
+	local ns=$1
+	if [ "$1" = "" ]; then 
+		ns=local
+	fi
+	k get pods -n $ns | grep -v Running | grep -v ContainerCreating | awk '{print $1}' | tail +2 | xargs kubectl delete pods -n $ns
+}
+
+function delete-error-deployments {
+	local ns="$1"
+	if [ "$1" = "" ]; then 
+		ns=local
+	fi
+	k get deployments -n $ns | grep -vP '(\d+)\/\1' | awk '{print $1}' | tail +2 | xargs kubectl delete deployments -n $ns
+}
 
 
 function highlight {

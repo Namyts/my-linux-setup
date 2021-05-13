@@ -124,9 +124,7 @@ kubectl krew install ns
 
 #setup microk8s
 sudo microk8s enable dns #sudo bc the permissions dont update
-sudo microk8s enable dashboard #sudo bc the permissions dont update
 sudo microk8s enable ingress #sudo bc the permissions dont update
-#microk8s enable host-access #sudo bc the permissions dont update
 
 kubectl create ns flux
 
@@ -142,3 +140,6 @@ sudo systemctl enable --now iscsid
 
 #azure cli
 curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
+
+#to mount azure fileshares
+sudo apt install cifs-utils -y
