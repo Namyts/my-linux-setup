@@ -51,6 +51,10 @@ alias my-deploy="bash $MY_K8S_LOCATION/deploy.sh"
 alias ipconfig="echo \$(ifconfig $WIFI_ADAPTER | awk '{print \$2}' | grep -E -o \"([0-9]{1,3}[\.]){3}[0-9]{1,3}\")"
 alias kustomize-filter="$YAML_DOCS_FILTER_LOCATION/index.js"
 
+function ev-connections {
+	bash $ON_BASH_LOCATION/Linux/scripts/k8s-connections.sh $1
+}
+
 function delete-error-pods {
 	local ns=$1
 	if [ "$1" = "" ]; then 
@@ -83,7 +87,7 @@ function writeOnce {
 
 alias execview-alpha='ssh ubuntu@evn-alpha.evlem.net'
 alias get-live-tls-secret="execview-alpha 'kubectl get secret tls-secret -n dev -oyaml'"
-alias update-tls="get-live-tls-secret | yq e '.metadata.namespace = \"local\"' - | k apply -f -"
+alias update-tls="get-live-tls-secret | yq e '.metadata.namespace = \"cert-manager\"' - | k apply -f -"
 
 declare -a blockDevicesAndLocations=("/k8storage/disks/diskimage loop0" "/k8storage/disks/diskimage2 loop1")
 for bdandl in "${blockDevicesAndLocations[@]}"

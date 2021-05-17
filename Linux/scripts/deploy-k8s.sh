@@ -2,7 +2,7 @@ currentContext=`kubectl config current-context`
 
 echo "$currentContext"
 
-k8env=``
+k8env=""
 
 if [ "$currentContext" = "microk8s" ]; then 
 	k8env=local
