@@ -1,2 +1,2 @@
 @echo off
-ssh-pf ubuntu@evn-alpha.evlem.net
+ssh-pf ubuntu@old-alpha.evlem.net

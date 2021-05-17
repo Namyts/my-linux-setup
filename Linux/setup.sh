@@ -114,6 +114,7 @@ sudo snap install kubectl --classic
 sudo snap install kustomize
 # sudo snap install helm3
 sudo snap install helm --classic
+sudo snap install yq
 
 #### SOFT RESTART #### PATH
 source ~/.bashrc
