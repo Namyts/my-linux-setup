@@ -4,17 +4,22 @@ echo "$currentContext"
 
 k8env=""
 
+if [ "$currentContext" = "" ]; then 
+	echo "Current context was empty"
+	exit 1
+fi
+
 if [ "$currentContext" = "microk8s" ]; then 
 	k8env=local
 fi
 
 if [ "$currentContext" = "evn-cluster" ]; then 
-	k8env=production
-fi
+	argEnv="$1"
+	if [ "$argEnv" = "" ]; then 
+		argEnv='development'
+	fi
 
-if [ "$currentContext" = "" ]; then 
-	echo "Current context was $currentContext"
-	exit 1
+	k8env="$argEnv"
 fi
 
 

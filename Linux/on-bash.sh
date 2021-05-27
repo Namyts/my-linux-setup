@@ -48,6 +48,8 @@ alias my-deploy="bash $MY_K8S_LOCATION/deploy.sh"
 (command -v kubectl > /dev/null) && source <(k completion bash)
 (command -v kubectl > /dev/null) && complete -F __start_kubectl k
 
+(command -v yq > /dev/null) && source <(yq shell-completion bash)
+
 alias ipconfig="echo \$(ifconfig $WIFI_ADAPTER | awk '{print \$2}' | grep -E -o \"([0-9]{1,3}[\.]){3}[0-9]{1,3}\")"
 alias kustomize-filter="$YAML_DOCS_FILTER_LOCATION/index.js"
 
