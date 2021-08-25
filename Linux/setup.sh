@@ -51,6 +51,8 @@ chmod 600 ~/.ssh/authorized_keys
 writeOnce /etc/ssh/sshd_config "PasswordAuthentication no"
 sudo service ssh restart
 
+#follow instructions from https://github.com/microsoft/Git-Credential-Manager-Core to setup git credential manager core
+
 git config --global user.name namyts
 git config --global user.email 35004248+Namyts@users.noreply.github.com
 
