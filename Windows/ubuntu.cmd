@@ -8,7 +8,7 @@ IF [%~1]==[] GOTO START
 VBoxManage startvm "ubuntuvb" --type headless
 cls
 @echo off
-ssh-pf namyts@ubuntu.wsl -p 2222
+ssh-pf namyts@ubuntu.wsl
 @echo on
 GOTO DONE
 
