@@ -146,3 +146,6 @@ curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
 
 #to mount azure fileshares
 sudo apt install cifs-utils -y
+
+#install screen. usage: Ctrl+A -> d. Then screen -ls to view. screen -r process_id to get back in
+sudo apt install screen
