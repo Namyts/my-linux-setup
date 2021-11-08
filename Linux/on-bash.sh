@@ -1,8 +1,11 @@
 #!/bin/bash
 
+# [[ $TERM != "screen" ]] && exec screen -q
+[[ $TERM = "xterm-256color" ]] && exec screen -q
+
 (command -v neofetch > /dev/null) && neofetch
 
-WINDOWS_IP=192.168.0.18
+WINDOWS_IP=192.168.0.177
 ON_BASH_LOCATION=~/my-linux-setup
 WORK_K8_LOCATION=~/evn-kubernetes-config
 MY_K8S_LOCATION=~/my-k8s
