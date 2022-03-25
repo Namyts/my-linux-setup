@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # [[ $TERM != "screen" ]] && exec screen -q
-[[ $TERM = "xterm-256color" ]] && exec screen -q
+(command -v screen > /dev/null) && [[ $TERM = "xterm-256color" ]] && exec screen -q
 
 (command -v neofetch > /dev/null) && neofetch
 
