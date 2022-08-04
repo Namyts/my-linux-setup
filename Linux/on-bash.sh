@@ -45,8 +45,9 @@ alias kubens="k ns"
 alias kubectx="k ctx"
 alias update-hosts="source $ON_BASH_LOCATION/Linux/scripts/add-aliases-to-hosts.sh"
 alias dashboard="source $WORK_K8_LOCATION/scripts/dashboard.sh"
+alias my-dashboard="source $MY_K8S_LOCATION/scripts/dashboard.sh"
 alias ev-deploy="source $ON_BASH_LOCATION/Linux/scripts/deploy-k8s.sh"
-alias my-deploy="bash $MY_K8S_LOCATION/deploy.sh"
+alias my-deploy="bash $MY_K8S_LOCATION/scripts/deploy.sh"
 
 (command -v kubectl > /dev/null) && source <(kubectl completion bash)
 (command -v kubectl > /dev/null) && source <(k completion bash)
@@ -59,6 +60,10 @@ alias kustomize-filter="$YAML_DOCS_FILTER_LOCATION/index.js"
 
 function ev-connections {
 	bash $ON_BASH_LOCATION/Linux/scripts/k8s-connections.sh $1
+}
+
+function my-connections {
+	bash $MY_K8S_LOCATION/scripts/connections.sh $1
 }
 
 function delete-error-pods {

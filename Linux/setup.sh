@@ -149,3 +149,5 @@ sudo apt install cifs-utils -y
 
 #install screen. usage: Ctrl+A -> d. Then screen -ls to view. screen -r process_id to get back in
 sudo apt install screen
+touch ~/.screenrc
+writeOnce ~/.screenrc "termcapinfo xterm* ti@:te@"
