@@ -100,13 +100,15 @@ sudo microk8s config > ~/.kube/config #sudo bc the permissions dont update
 sudo apt install curl
 #sudo apt install --reinstall ca-certificates #if something goes wrong with the next command
 
-( #install kubctl krew
+#install kubctl krew https://krew.sigs.k8s.io/docs/user-guide/setup/install/
+(
   set -x; cd "$(mktemp -d)" &&
-  curl -fsSLO "https://github.com/kubernetes-sigs/krew/releases/latest/download/krew.{tar.gz,yaml}" &&
-  tar zxvf krew.tar.gz &&
-  KREW=./krew-"$(uname | tr '[:upper:]' '[:lower:]')_amd64" &&
-  "$KREW" install --manifest=krew.yaml --archive=krew.tar.gz &&
-  "$KREW" update
+  OS="$(uname | tr '[:upper:]' '[:lower:]')" &&
+  ARCH="$(uname -m | sed -e 's/x86_64/amd64/' -e 's/\(arm\)\(64\)\?.*/\1\2/' -e 's/aarch64$/arm64/')" &&
+  KREW="krew-${OS}_${ARCH}" &&
+  curl -fsSLO "https://github.com/kubernetes-sigs/krew/releases/latest/download/${KREW}.tar.gz" &&
+  tar zxvf "${KREW}.tar.gz" &&
+  ./"${KREW}" install krew
 )
 
 #### SOFT RESTART #### PATH
@@ -148,6 +150,6 @@ curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
 sudo apt install cifs-utils -y
 
 #install screen. usage: Ctrl+A -> d. Then screen -ls to view. screen -r process_id to get back in
-sudo apt install screen
+sudo apt install screen -y
 touch ~/.screenrc
 writeOnce ~/.screenrc "termcapinfo xterm* ti@:te@"
