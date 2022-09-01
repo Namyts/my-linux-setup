@@ -96,9 +96,10 @@ function writeOnce {
 	grep -q "$string_to_write" $write_file || (echo $string_to_write | sudo tee -a $write_file)
 }
 
-alias execview-alpha='ssh ubuntu@evn-alpha.evlem.net'
-alias get-live-tls-secret="execview-alpha 'kubectl get secret tls-secret -n dev -oyaml'"
-alias update-tls="get-live-tls-secret | yq e '.metadata.namespace = \"cert-manager\"' - | k apply -f -"
+alias get-tls-crt="kubectl get secret tls-secret -n dev -oyaml | yq '.data[\"tls.crt\"]' | base64 -d"
+alias get-tls-crt="kubectl get secret tls-secret -n dev -oyaml | yq '.data[\"tls.key\"]' | base64 -d"
+
+# alias update-tls="get-live-tls-secret | yq e '.metadata.namespace = \"cert-manager\"' - | k apply -f -"
 
 declare -a blockDevicesAndLocations=("/k8storage/disks/diskimage loop0" "/k8storage/disks/diskimage2 loop1")
 for bdandl in "${blockDevicesAndLocations[@]}"
