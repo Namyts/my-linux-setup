@@ -13,7 +13,7 @@ if ( $command -eq "stop" )
 	if (-not $vm_already_running){
 		write-host "starting $($vm)"
 		VBoxManage startvm $vm --type headless
-		Start-Sleep -s 10
+		Start-Sleep -s 15
 	} 
 	ssh-pf namyts@ubuntu.wsl
 }
