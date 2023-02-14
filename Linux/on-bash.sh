@@ -5,7 +5,7 @@
 
 (command -v neofetch > /dev/null) && neofetch
 
-WINDOWS_IP=192.168.0.177
+WINDOWS_IP=192.168.0.55
 ON_BASH_LOCATION=~/my-linux-setup
 WORK_K8_LOCATION=~/evn-kubernetes-config
 MY_K8S_LOCATION=~/my-k8s
@@ -97,7 +97,7 @@ function writeOnce {
 }
 
 alias get-tls-crt="kubectl get secret tls-secret -n dev -oyaml | yq '.data[\"tls.crt\"]' | base64 -d"
-alias get-tls-crt="kubectl get secret tls-secret -n dev -oyaml | yq '.data[\"tls.key\"]' | base64 -d"
+alias get-tls-key="kubectl get secret tls-secret -n dev -oyaml | yq '.data[\"tls.key\"]' | base64 -d"
 
 # alias update-tls="get-live-tls-secret | yq e '.metadata.namespace = \"cert-manager\"' - | k apply -f -"
 
