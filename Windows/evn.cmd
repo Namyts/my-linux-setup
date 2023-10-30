@@ -1,3 +1,2 @@
 @echo off
-D:
-cd D:/james/Execview/EVN
+cd C:\Users\james\Documents\Execview\EVN
