@@ -15,7 +15,7 @@ if ( $command -eq "stop" )
 		VBoxManage startvm $vm --type headless
 		Start-Sleep -s 15
 	} 
-	ssh-pf namyts@ubuntu.wsl
+	ssh ubuntuvb
 }
 write-host "Done!"
 

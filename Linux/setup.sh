@@ -37,9 +37,10 @@ IP=$(echo -n $(ipconfig))
 #add work keys into .ssh
 echo "Add your ssh keys to the ssh folder"
 echo "On windows run:"
+# mklink /D C:\Users\james\.ssh C:\Users\james\OneDrive\Documents\Projects\WSL\.ssh
 echo "scp -P 2222 * $USER@$IP:/home/$USER/.ssh"
 echo "or on WSL"
-echo "cd /mnt/c/Users/james/OneDrive/Documents/Projects/WSL/ssh && cp -a . ~/.ssh && cd ~"
+echo "cd /mnt/c/Users/james/OneDrive/Documents/Projects/WSL/.ssh && cp -a . ~/.ssh && cd ~"
 read -n 1 -s -r -p "Press any key to continue"
 echo ""
 
