@@ -1,5 +1,8 @@
 param(
     [Parameter(Mandatory=$true)]
+    [string]$BaseName,
+
+    [Parameter(Mandatory=$true)]
     [string]$ApiUrl
 )
 
@@ -41,15 +44,9 @@ if (-not $ttml) {
     exit
 }
 
-# Try to extract PID from URL
-if ($ApiUrl -match "pid:(?<pid>[^/]+)") {
-    $base = $Matches.pid
-} else {
-    $base = "iplayer_" + (Get-Date -Format "yyyyMMdd_HHmmss")
-}
-
-$videoFile = "$base.mp4"
-$ttmlFile  = "$base.ttml"
+# Use the provided base name directly
+$videoFile = "$BaseName.mp4"
+$ttmlFile  = "$BaseName.ttml"
 
 Write-Host "Downloading TTML subtitles..."
 Invoke-WebRequest -Uri $ttml -OutFile $ttmlFile
